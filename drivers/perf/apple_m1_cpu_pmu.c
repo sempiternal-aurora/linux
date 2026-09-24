@@ -22,6 +22,7 @@
 #define M1_PMU_NR_COUNTERS		10
 
 #define M1_PMU_CFG_EVENT		GENMASK(7, 0)
+#define M3_PMU_CFG_EVENT		GENMASK(15, 0)
 
 #define ANY_BUT_0_1			GENMASK(9, 2)
 #define ONLY_2_TO_7			GENMASK(7, 2)
@@ -125,6 +126,84 @@ enum m1_pmu_events {
 	M1_PMU_CFG_COUNT_GUEST					= BIT(11),
 };
 
+enum m3_pmu_events {
+	M3_PMU_PERFCTR_RETIRE_UOP				= 0x1,
+	M3_PMU_PERFCTR_CORE_ACTIVE_CYCLE			= 0x2,
+	M3_PMU_PERFCTR_FLUSH_RESTART_OTHER_NONSPEC		= 0x84,
+	M3_PMU_PERFCTR_INST_ALL					= 0x8c,
+	M3_PMU_PERFCTR_INST_BRANCH				= 0x8d,
+	M3_PMU_PERFCTR_INST_BRANCH_CALL				= 0x8e,
+	M3_PMU_PERFCTR_INST_BRANCH_RET				= 0x8f,
+	M3_PMU_PERFCTR_INST_BRANCH_TAKEN			= 0x90,
+	M3_PMU_PERFCTR_INST_BRANCH_INDIR			= 0x93,
+	M3_PMU_PERFCTR_INST_INT_LD				= 0x95,
+	M3_PMU_PERFCTR_INST_INT_ST				= 0x96,
+	M3_PMU_PERFCTR_INST_INT_ALU				= 0x97,
+	M3_PMU_PERFCTR_INST_SIMD_LD				= 0x98,
+	M3_PMU_PERFCTR_INST_SIMD_ST				= 0x99,
+	M3_PMU_PERFCTR_INST_SIMD_ALU				= 0x9a,
+	M3_PMU_PERFCTR_INST_LDST				= 0x9b,
+	M3_PMU_PERFCTR_INST_BARRIER				= 0x9c,
+	M3_PMU_PERFCTR_INST_SIMD_ALU_VEC			= 0x9f,
+	M3_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC		= 0xbf,
+	M3_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC		= 0xc0,
+	M3_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC			= 0xc1,
+	M3_PMU_PERFCTR_ST_MEM_ORDER_VIOL_LD_NONSPEC		= 0xc4,
+	M3_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC		= 0xc5,
+	M3_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC		= 0xc6,
+	M3_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC		= 0xc8,
+	M3_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC	= 0xca,
+	M3_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC			= 0xcb,
+	M3_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_IC			= 0x182,
+	M3_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_ITLB			= 0x183,
+	M3_PMU_PERFCTR_DECODE_UOP				= 0x186,
+	M3_PMU_PERFCTR_L1I_TLB_MISS_DEMAND			= 0x1d4,
+	M3_PMU_PERFCTR_MAP_DISPATCH_BUBBLE			= 0x1d6,
+	M3_PMU_PERFCTR_L1I_CACHE_MISS_DEMAND			= 0x1db,
+	M3_PMU_PERFCTR_FETCH_RESTART				= 0x1de,
+	M3_PMU_PERFCTR_MAP_UOP					= 0x269,
+	M3_PMU_PERFCTR_INTERRUPT_PENDING			= 0x26c,
+	M3_PMU_PERFCTR_MAP_STALL_DISPATCH			= 0x270,
+	M3_PMU_PERFCTR_MAP_REWIND				= 0x275,
+	M3_PMU_PERFCTR_MAP_STALL				= 0x276,
+	M3_PMU_PERFCTR_MAP_INT_UOP				= 0x27c,
+	M3_PMU_PERFCTR_MAP_LDST_UOP				= 0x27d,
+	M3_PMU_PERFCTR_MAP_SIMD_UOP				= 0x27e,
+	M3_PMU_PERFCTR_SCHEDULE_UOP_ANY				= 0x283,
+	M3_PMU_PERFCTR_LDST_UNIT_OLD_L1D_CACHE_MISS		= 0x290,
+	M3_PMU_PERFCTR_LDST_UNIT_WAITING_OLD_L1D_CACHE_MISS	= 0x291,
+	M3_PMU_PERFCTR_SCHEDULE_EMPTY				= 0x351,
+	M3_PMU_PERFCTR_L1I_TLB_FILL				= 0x404,
+	M3_PMU_PERFCTR_L1D_TLB_FILL				= 0x405,
+	M3_PMU_PERFCTR_MMU_TABLE_WALK_INSTRUCTION		= 0x407,
+	M3_PMU_PERFCTR_MMU_TABLE_WALK_DATA			= 0x408,
+	M3_PMU_PERFCTR_L2_TLB_MISS_INSTRUCTION			= 0x40a,
+	M3_PMU_PERFCTR_L2_TLB_MISS_DATA				= 0x40b,
+	M3_PMU_PERFCTR_L1D_TLB_ACCESS				= 0x5a0,
+	M3_PMU_PERFCTR_L1D_TLB_MISS				= 0x5a1,
+	M3_PMU_PERFCTR_L1D_CACHE_MISS_ST			= 0x5a2,
+	M3_PMU_PERFCTR_L1D_CACHE_MISS_LD			= 0x5a3,
+	M3_PMU_PERFCTR_LD_UNIT_UOP				= 0x5a6,
+	M3_PMU_PERFCTR_ST_UNIT_UOP				= 0x5a7,
+	M3_PMU_PERFCTR_L1D_CACHE_WRITEBACK			= 0x5a8,
+	M3_PMU_PERFCTR_LDST_X64_UOP				= 0x5b1,
+	M3_PMU_PERFCTR_LDST_XPG_UOP				= 0x5b2,
+	M3_PMU_PERFCTR_ATOMIC_OR_EXCLUSIVE_SUCC			= 0x5b3,
+	M3_PMU_PERFCTR_ATOMIC_OR_EXCLUSIVE_FAIL			= 0x5b4,
+	M3_PMU_PERFCTR_ST_NT_UOP				= 0x5e5,
+	M3_PMU_PERFCTR_LD_NT_UOP				= 0x5e6,
+	M3_PMU_PERFCTR_LAST					= M3_PMU_CFG_EVENT,
+
+	/*
+	 * From this point onwards, these are not actual HW events,
+	 * but attributes that get stored in hw->config_base.
+	 */
+	M3_PMU_CFG_COUNT_USER					= BIT(16),
+	M3_PMU_CFG_COUNT_KERNEL					= BIT(17),
+	M3_PMU_CFG_COUNT_HOST					= BIT(18),
+	M3_PMU_CFG_COUNT_GUEST					= BIT(19),
+};
+
 /*
  * Per-event affinity table. Most events can be installed on counter
  * 2-9, but there are a number of exceptions. Note that this table
@@ -167,6 +246,36 @@ static const u16 m1_pmu_event_affinity[M1_PMU_PERFCTR_LAST + 1] = {
 	[M1_PMU_PERFCTR_UNKNOWN_fd]				= ONLY_2_4_6,
 };
 
+static const u16 m3_pmu_event_affinity[M3_PMU_PERFCTR_LAST + 1] = {
+	[0 ... M3_PMU_PERFCTR_LAST]				= ANY_BUT_0_1,
+	[M3_PMU_PERFCTR_RETIRE_UOP]				= BIT(7),
+	[M3_PMU_PERFCTR_CORE_ACTIVE_CYCLE]			= ANY_BUT_0_1 | BIT(0),
+	[M3_PMU_PERFCTR_INST_ALL]				= BIT(7) | BIT(1),
+	[M3_PMU_PERFCTR_INST_BRANCH]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_BRANCH_CALL]			= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_BRANCH_RET]			= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_BRANCH_TAKEN]			= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_BRANCH_INDIR]			= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_INT_LD]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_INT_ST]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_INT_ALU]				= BIT(7),
+	[M3_PMU_PERFCTR_INST_SIMD_LD]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_SIMD_ST]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_SIMD_ALU]				= BIT(7),
+	[M3_PMU_PERFCTR_INST_LDST]				= BIT(7),
+	[M3_PMU_PERFCTR_INST_BARRIER]				= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_INST_SIMD_ALU_VEC]			= BIT(7),
+	[M3_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC]		= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC]		= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC]			= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_ST_MEM_ORDER_VIOL_LD_NONSPEC]		= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC]		= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC]		= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC]	= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC]	= ONLY_5_6_7,
+	[M3_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC]			= ONLY_5_6_7,
+};
+
 static const unsigned m1_pmu_perf_map[PERF_COUNT_HW_MAX] = {
 	PERF_MAP_ALL_UNSUPPORTED,
 	[PERF_COUNT_HW_CPU_CYCLES]		= M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
@@ -175,8 +284,19 @@ static const unsigned m1_pmu_perf_map[PERF_COUNT_HW_MAX] = {
 	[PERF_COUNT_HW_BRANCH_MISSES]		= M1_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,
 };
 
+static const unsigned m3_pmu_perf_map[PERF_COUNT_HW_MAX] = {
+	PERF_MAP_ALL_UNSUPPORTED,
+	[PERF_COUNT_HW_CPU_CYCLES]		= M3_PMU_PERFCTR_CORE_ACTIVE_CYCLE,
+	[PERF_COUNT_HW_INSTRUCTIONS]		= M3_PMU_PERFCTR_INST_ALL,
+	[PERF_COUNT_HW_BRANCH_INSTRUCTIONS]	= M3_PMU_PERFCTR_INST_BRANCH,
+	[PERF_COUNT_HW_BRANCH_MISSES]		= M3_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,
+};
+
 #define M1_PMUV3_EVENT_MAP(pmuv3_event, m1_event)				\
 	[ARMV8_PMUV3_PERFCTR_##pmuv3_event]	= M1_PMU_PERFCTR_##m1_event
+
+#define M3_PMUV3_EVENT_MAP(pmuv3_event, m3_event)				\
+	[ARMV8_PMUV3_PERFCTR_##pmuv3_event]	= M3_PMU_PERFCTR_##m3_event
 
 static const u16 m1_pmu_pmceid_map[ARMV8_PMUV3_MAX_COMMON_EVENTS] = {
 	[0 ... ARMV8_PMUV3_MAX_COMMON_EVENTS - 1]	= HW_OP_UNSUPPORTED,
@@ -184,6 +304,14 @@ static const u16 m1_pmu_pmceid_map[ARMV8_PMUV3_MAX_COMMON_EVENTS] = {
 	M1_PMUV3_EVENT_MAP(CPU_CYCLES,		CORE_ACTIVE_CYCLE),
 	M1_PMUV3_EVENT_MAP(BR_RETIRED,		INST_BRANCH),
 	M1_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED,	BRANCH_MISPRED_NONSPEC),
+};
+
+static const u16 m3_pmu_pmceid_map[ARMV8_PMUV3_MAX_COMMON_EVENTS] = {
+	[0 ... ARMV8_PMUV3_MAX_COMMON_EVENTS - 1]	= HW_OP_UNSUPPORTED,
+	M3_PMUV3_EVENT_MAP(INST_RETIRED,	INST_ALL),
+	M3_PMUV3_EVENT_MAP(CPU_CYCLES,		CORE_ACTIVE_CYCLE),
+	M3_PMUV3_EVENT_MAP(BR_RETIRED,		INST_BRANCH),
+	M3_PMUV3_EVENT_MAP(BR_MIS_PRED_RETIRED,	BRANCH_MISPRED_NONSPEC),
 };
 
 /* sysfs definitions */
@@ -198,8 +326,22 @@ static ssize_t m1_pmu_events_sysfs_show(struct device *dev,
 	return sprintf(page, "event=0x%04llx\n", pmu_attr->id);
 }
 
+static ssize_t m3_pmu_events_sysfs_show(struct device *dev,
+					struct device_attribute *attr,
+					char *page)
+{
+	struct perf_pmu_events_attr *pmu_attr;
+
+	pmu_attr = container_of(attr, struct perf_pmu_events_attr, attr);
+
+	return sprintf(page, "event=0x%06llx\n", pmu_attr->id);
+}
+
 #define M1_PMU_EVENT_ATTR(name, config)					\
 	PMU_EVENT_ATTR_ID(name, m1_pmu_events_sysfs_show, config)
+
+#define M3_PMU_EVENT_ATTR(name, config)					\
+	PMU_EVENT_ATTR_ID(name, m3_pmu_events_sysfs_show, config)
 
 static struct attribute *m1_pmu_event_attrs[] = {
 	M1_PMU_EVENT_ATTR(cycles, M1_PMU_PERFCTR_CORE_ACTIVE_CYCLE),
@@ -207,9 +349,20 @@ static struct attribute *m1_pmu_event_attrs[] = {
 	NULL,
 };
 
+static struct attribute *m3_pmu_event_attrs[] = {
+	M3_PMU_EVENT_ATTR(cycles, M3_PMU_PERFCTR_CORE_ACTIVE_CYCLE),
+	M3_PMU_EVENT_ATTR(instructions, M3_PMU_PERFCTR_INST_ALL),
+	NULL,
+};
+
 static const struct attribute_group m1_pmu_events_attr_group = {
 	.name = "events",
 	.attrs = m1_pmu_event_attrs,
+};
+
+static const struct attribute_group m3_pmu_events_attr_group = {
+	.name = "events",
+	.attrs = m3_pmu_event_attrs,
 };
 
 PMU_FORMAT_ATTR(event, "config:0-7");
@@ -376,7 +529,8 @@ static void __m1_pmu_configure_event_filter(unsigned int index, bool user,
 		sysreg_clear_set_s(SYS_IMP_APL_PMCR1_EL12, clear, set);
 }
 
-static void __m1_pmu_configure_eventsel(unsigned int index, u8 event)
+static void __apple_pmu_configure_eventsel(unsigned int index, u8 event, u64 mask,
+					unsigned int size)
 {
 	u64 clear = 0, set = 0;
 	int shift;
@@ -391,14 +545,14 @@ static void __m1_pmu_configure_eventsel(unsigned int index, u8 event)
 	case 0 ... 1:
 		break;
 	case 2 ... 5:
-		shift = (index - 2) * 8;
-		clear |= (u64)0xff << shift;
+		shift = (index - 2) * size;
+		clear |= mask << shift;
 		set |= (u64)event << shift;
 		sysreg_clear_set_s(SYS_IMP_APL_PMESR0_EL1, clear, set);
 		break;
 	case 6 ... 9:
-		shift = (index - 6) * 8;
-		clear |= (u64)0xff << shift;
+		shift = (index - 6) * size;
+		clear |= mask << shift;
 		set |= (u64)event << shift;
 		sysreg_clear_set_s(SYS_IMP_APL_PMESR1_EL1, clear, set);
 		break;
@@ -415,7 +569,20 @@ static void m1_pmu_configure_counter(unsigned int index, unsigned long config_ba
 
 	__m1_pmu_configure_event_filter(index, user && host, kernel && host, true);
 	__m1_pmu_configure_event_filter(index, user && guest, kernel && guest, false);
-	__m1_pmu_configure_eventsel(index, evt);
+	__apple_pmu_configure_eventsel(index, evt, 8, M1_PMU_CFG_EVENT);
+}
+
+static void m3_pmu_configure_counter(unsigned int index, unsigned long config_base)
+{
+	bool kernel = config_base & M3_PMU_CFG_COUNT_KERNEL;
+	bool guest = config_base & M3_PMU_CFG_COUNT_GUEST;
+	bool host = config_base & M3_PMU_CFG_COUNT_HOST;
+	bool user = config_base & M3_PMU_CFG_COUNT_USER;
+	u8 evt = config_base & M3_PMU_CFG_EVENT;
+
+	__m1_pmu_configure_event_filter(index, user && host, kernel && host, true);
+	__m1_pmu_configure_event_filter(index, user && guest, kernel && guest, false);
+	__apple_pmu_configure_eventsel(index, evt, 16, M3_PMU_CFG_EVENT);
 }
 
 /* arm_pmu backend */
@@ -429,6 +596,21 @@ static void m1_pmu_enable_event(struct perf_event *event)
 	kernel = event->hw.config_base & M1_PMU_CFG_COUNT_KERNEL;
 
 	m1_pmu_configure_counter(event->hw.idx, event->hw.config_base);
+	m1_pmu_enable_counter(event->hw.idx);
+	m1_pmu_enable_counter_interrupt(event->hw.idx);
+	isb();
+}
+
+static void m3_pmu_enable_event(struct perf_event *event)
+{
+	bool user, kernel;
+	u8 evt;
+
+	evt = event->hw.config_base & M3_PMU_CFG_EVENT;
+	user = event->hw.config_base & M3_PMU_CFG_COUNT_USER;
+	kernel = event->hw.config_base & M3_PMU_CFG_COUNT_KERNEL;
+
+	m3_pmu_configure_counter(event->hw.idx, event->hw.config_base);
 	m1_pmu_enable_counter(event->hw.idx);
 	m1_pmu_enable_counter_interrupt(event->hw.idx);
 	isb();
@@ -493,11 +675,12 @@ static void m1_pmu_write_counter(struct perf_event *event, u64 value)
 	isb();
 }
 
-static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
-				struct perf_event *event)
+static int apple_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+				   struct perf_event *event,
+				   const u16 event_affinities[])
 {
 	unsigned long evtype = event->hw.config_base & M1_PMU_CFG_EVENT;
-	unsigned long affinity = m1_pmu_event_affinity[evtype];
+	unsigned long affinity = event_affinities[evtype];
 	int idx;
 
 	/*
@@ -514,6 +697,18 @@ static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
 	}
 
 	return -EAGAIN;
+}
+
+static int m1_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+				struct perf_event *event)
+{
+	return apple_pmu_get_event_idx(cpuc, event, m1_pmu_event_affinity);
+}
+
+static int m3_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+				struct perf_event *event)
+{
+	return apple_pmu_get_event_idx(cpuc, event, m3_pmu_event_affinity);
 }
 
 static void m1_pmu_clear_event_idx(struct pmu_hw_events *cpuc,
@@ -543,46 +738,76 @@ static void m1_pmu_stop(struct arm_pmu *cpu_pmu)
 	__m1_pmu_set_mode(PMCR0_IMODE_OFF);
 }
 
+static int apple_pmu_map_event(struct perf_event *event, 
+			       const unsigned int (*perf_map)[], int flags, 
+			       u32 mask)
+{
+	event->hw.flags |= flags;
+	return armpmu_map_event(event, perf_map, NULL, mask);
+}
+
+/*
+ * Although the counters are 48 or 64 bits wide, the most 
+ * significant bit triggers the overflow interrupt. Advertise 
+ * the counters being 1 bit smaller to mimick the behaviour 
+ * of the ARM PMU.
+ */
 static int m1_pmu_map_event(struct perf_event *event)
 {
-	/*
-	 * Although the counters are 48bit wide, bit 47 is what
-	 * triggers the overflow interrupt. Advertise the counters
-	 * being 47bit wide to mimick the behaviour of the ARM PMU.
-	 */
-	event->hw.flags |= ARMPMU_EVT_47BIT;
-	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
+	return apple_pmu_map_event(event, &m1_pmu_perf_map, ARMPMU_EVT_47BIT, 
+				   M1_PMU_CFG_EVENT);
 }
 
 static int m2_pmu_map_event(struct perf_event *event)
 {
-	/*
-	 * Same deal as the above, except that M2 has 64bit counters.
-	 * Which, as far as we're concerned, actually means 63 bits.
-	 * Yes, this is getting awkward.
-	 */
-	event->hw.flags |= ARMPMU_EVT_63BIT;
-	return armpmu_map_event(event, &m1_pmu_perf_map, NULL, M1_PMU_CFG_EVENT);
+	return apple_pmu_map_event(event, &m1_pmu_perf_map, ARMPMU_EVT_63BIT, 
+				   M1_PMU_CFG_EVENT);
+}
+
+static int m3_pmu_map_event(struct perf_event *event)
+{
+	return apple_pmu_map_event(event, &m3_pmu_perf_map, ARMPMU_EVT_63BIT, 
+				   M3_PMU_CFG_EVENT);
+}
+
+static int apple_pmu_map_pmuv3_event(unsigned int eventsel, const u16 pmceid_map[])
+{
+	u16 apple_event = HW_OP_UNSUPPORTED;
+
+	if (eventsel < ARMV8_PMUV3_MAX_COMMON_EVENTS)
+		apple_event = pmceid_map[eventsel];
+
+	return apple_event == HW_OP_UNSUPPORTED ? -EOPNOTSUPP : apple_event;
 }
 
 static int m1_pmu_map_pmuv3_event(unsigned int eventsel)
 {
-	u16 m1_event = HW_OP_UNSUPPORTED;
-
-	if (eventsel < ARMV8_PMUV3_MAX_COMMON_EVENTS)
-		m1_event = m1_pmu_pmceid_map[eventsel];
-
-	return m1_event == HW_OP_UNSUPPORTED ? -EOPNOTSUPP : m1_event;
+	return apple_pmu_map_pmuv3_event(eventsel, m1_pmu_pmceid_map);
 }
 
-static void m1_pmu_init_pmceid(struct arm_pmu *pmu)
+static int m3_pmu_map_pmuv3_event(unsigned int eventsel)
+{
+	return apple_pmu_map_pmuv3_event(eventsel, m3_pmu_pmceid_map);
+}
+
+static void apple_pmu_init_pmceid(struct arm_pmu *pmu, const u16 pmceid_map[])
 {
 	unsigned int event;
 
 	for (event = 0; event < ARMV8_PMUV3_MAX_COMMON_EVENTS; event++) {
-		if (m1_pmu_map_pmuv3_event(event) >= 0)
+		if (apple_pmu_map_pmuv3_event(event, pmceid_map) >= 0)
 			set_bit(event, pmu->pmceid_bitmap);
 	}
+}
+
+static void m1_pmu_init_pmceid(struct arm_pmu *pmu)
+{ 
+	return apple_pmu_init_pmceid(pmu, m1_pmu_pmceid_map); 
+}
+
+static void m3_pmu_init_pmceid(struct arm_pmu *pmu)
+{ 
+	return apple_pmu_init_pmceid(pmu, m3_pmu_pmceid_map); 
 }
 
 static void m1_pmu_reset(void *info)
@@ -623,33 +848,41 @@ static int m1_pmu_set_event_filter(struct hw_perf_event *event,
 	return 0;
 }
 
-static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
+static int m3_pmu_set_event_filter(struct hw_perf_event *event,
+				   struct perf_event_attr *attr)
+{
+	unsigned long config_base = 0;
+
+	if (!attr->exclude_guest && !is_kernel_in_hyp_mode()) {
+		pr_debug("ARM performance counters do not support mode exclusion\n");
+		return -EOPNOTSUPP;
+	}
+	if (!attr->exclude_kernel)
+		config_base |= M3_PMU_CFG_COUNT_KERNEL;
+	if (!attr->exclude_user)
+		config_base |= M3_PMU_CFG_COUNT_USER;
+	if (!attr->exclude_host)
+		config_base |= M3_PMU_CFG_COUNT_HOST;
+	if (!attr->exclude_guest)
+		config_base |= M3_PMU_CFG_COUNT_GUEST;
+
+	event->config_base = config_base;
+
+	return 0;
+}
+
+static int apple_pmu_init(struct arm_pmu *cpu_pmu)
 {
 	cpu_pmu->handle_irq	  = m1_pmu_handle_irq;
-	cpu_pmu->enable		  = m1_pmu_enable_event;
 	cpu_pmu->disable	  = m1_pmu_disable_event;
 	cpu_pmu->read_counter	  = m1_pmu_read_counter;
 	cpu_pmu->write_counter	  = m1_pmu_write_counter;
-	cpu_pmu->get_event_idx	  = m1_pmu_get_event_idx;
 	cpu_pmu->clear_event_idx  = m1_pmu_clear_event_idx;
 	cpu_pmu->start		  = m1_pmu_start;
 	cpu_pmu->stop		  = m1_pmu_stop;
-
-	if (flags & ARMPMU_EVT_47BIT)
-		cpu_pmu->map_event = m1_pmu_map_event;
-	else if (flags & ARMPMU_EVT_63BIT)
-		cpu_pmu->map_event = m2_pmu_map_event;
-	else
-		return WARN_ON(-EINVAL);
-
 	cpu_pmu->reset		  = m1_pmu_reset;
-	cpu_pmu->set_event_filter = m1_pmu_set_event_filter;
-
-	cpu_pmu->map_pmuv3_event  = m1_pmu_map_pmuv3_event;
-	m1_pmu_init_pmceid(cpu_pmu);
 
 	bitmap_set(cpu_pmu->cntr_mask, 0, M1_PMU_NR_COUNTERS);
-	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
 	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_FORMATS] = &m1_pmu_format_attr_group;
 	return 0;
 }
@@ -657,29 +890,97 @@ static int m1_pmu_init(struct arm_pmu *cpu_pmu, u32 flags)
 /* Device driver gunk */
 static int m1_pmu_ice_init(struct arm_pmu *cpu_pmu)
 {
-	cpu_pmu->name = "apple_icestorm_pmu";
-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_47BIT);
+	cpu_pmu->name			= "apple_icestorm_pmu";
+	cpu_pmu->enable			= m1_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m1_pmu_get_event_idx;
+	cpu_pmu->map_event		= m1_pmu_map_event;
+	cpu_pmu->set_event_filter	= m1_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m1_pmu_map_pmuv3_event;
+	m1_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
 }
 
 static int m1_pmu_fire_init(struct arm_pmu *cpu_pmu)
 {
-	cpu_pmu->name = "apple_firestorm_pmu";
-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_47BIT);
+	cpu_pmu->name			= "apple_firestorm_pmu";
+	cpu_pmu->enable			= m1_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m1_pmu_get_event_idx;
+	cpu_pmu->map_event		= m1_pmu_map_event;
+	cpu_pmu->set_event_filter	= m1_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m1_pmu_map_pmuv3_event;
+	m1_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
 }
 
 static int m2_pmu_avalanche_init(struct arm_pmu *cpu_pmu)
 {
-	cpu_pmu->name = "apple_avalanche_pmu";
-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_63BIT);
+	cpu_pmu->name			= "apple_avalanche_pmu";
+	cpu_pmu->enable			= m1_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m1_pmu_get_event_idx;
+	cpu_pmu->map_event		= m2_pmu_map_event;
+	cpu_pmu->set_event_filter	= m1_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m1_pmu_map_pmuv3_event;
+	m1_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
 }
 
 static int m2_pmu_blizzard_init(struct arm_pmu *cpu_pmu)
 {
-	cpu_pmu->name = "apple_blizzard_pmu";
-	return m1_pmu_init(cpu_pmu, ARMPMU_EVT_63BIT);
+	cpu_pmu->name			= "apple_blizzard_pmu";
+	cpu_pmu->enable			= m1_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m1_pmu_get_event_idx;
+	cpu_pmu->map_event		= m2_pmu_map_event;
+	cpu_pmu->set_event_filter	= m1_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m1_pmu_map_pmuv3_event;
+	m1_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m1_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
+}
+
+static int m3_pmu_sawtooth_init(struct arm_pmu *cpu_pmu)
+{
+	cpu_pmu->name			= "apple_sawtooth_pmu";
+	cpu_pmu->enable			= m3_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m3_pmu_get_event_idx;
+	cpu_pmu->map_event		= m3_pmu_map_event;
+	cpu_pmu->set_event_filter	= m3_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m3_pmu_map_pmuv3_event;
+	m3_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m3_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
+}
+
+static int m3_pmu_everest_init(struct arm_pmu *cpu_pmu)
+{
+	cpu_pmu->name			= "apple_everest_pmu";
+	cpu_pmu->enable			= m3_pmu_enable_event;
+	cpu_pmu->get_event_idx		= m3_pmu_get_event_idx;
+	cpu_pmu->map_event		= m3_pmu_map_event;
+	cpu_pmu->set_event_filter	= m3_pmu_set_event_filter;
+
+	cpu_pmu->map_pmuv3_event	= m3_pmu_map_pmuv3_event;
+	m3_pmu_init_pmceid(cpu_pmu);
+
+	cpu_pmu->attr_groups[ARMPMU_ATTR_GROUP_EVENTS] = &m3_pmu_events_attr_group;
+	return apple_pmu_init(cpu_pmu);
 }
 
 static const struct of_device_id m1_pmu_of_device_ids[] = {
+	{ .compatible = "apple,sawtooth-pmu",	.data = m3_pmu_sawtooth_init, },
+	{ .compatible = "apple,everest-pmu",	.data = m3_pmu_everest_init, },
 	{ .compatible = "apple,avalanche-pmu",	.data = m2_pmu_avalanche_init, },
 	{ .compatible = "apple,blizzard-pmu",	.data = m2_pmu_blizzard_init, },
 	{ .compatible = "apple,icestorm-pmu",	.data = m1_pmu_ice_init, },
