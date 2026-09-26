@@ -22,10 +22,23 @@ properties:
           - apm,potenza-pmu
           - apple,avalanche-pmu
           - apple,blizzard-pmu
+          - apple,brava-e-pmu
+          - apple,brava-p-pmu
+          - apple,donan-e-pmu
+          - apple,donan-p-pmu
           - apple,everest-pmu
           - apple,firestorm-pmu
+          - apple,hidra-e-pmu
+          - apple,hidra-p-pmu
           - apple,icestorm-pmu
+          - apple,komodo-e-pmu
+          - apple,komodo-m-pmu
+          - apple,komodo-p-pmu
           - apple,sawtooth-pmu
+          - apple,sotra-m-pmu
+          - apple,sotra-p-pmu
+          - apple,tahiti-e-pmu
+          - apple,tahiti-p-pmu
           - arm,armv8-pmuv3 # Only for s/w models
           - arm,arm1136-pmu
           - arm,arm1176-pmu
