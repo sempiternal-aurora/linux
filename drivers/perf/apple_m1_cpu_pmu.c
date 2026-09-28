@@ -262,9 +262,11 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_L2_TLB_MISS_INSTRUCTION				= 0x40a,
 	M4_PMU_PERFCTR_L2_TLB_MISS_DATA					= 0x40b,
 	M4_PMU_PERFCTR_LDST_SME_XPG_UOP					= 0x508,
+	M6_PMU_PERFCTR_ST_SME_MEM_ORDER_VIOL_LD_NONSPEC			= 0x521,
 	M4_PMU_PERFCTR_INST_SME_ENGINE_PACKING_FUSED			= 0x529,
-	M4_PMU_PERFCTR_LD_BLOCKED_BY_SME_LDST				= 0x52c,
-	M4_PMU_PERFCTR_ST_BARRIER_BLOCKED_BY_SME_LDST			= 0x52e,
+	M4_PMU_PERFCTR_LD_BLOCKED_BY_SME_LDST				= 0x52c, /* Not M6 */
+	M4_PMU_PERFCTR_ST_BARRIER_BLOCKED_BY_SME_LDST			= 0x52e, /* Not M6 */
+	M6_PMU_PERFCTR_LD_SME_MEM_ORDER_VIOL_LD_NONSPEC			= 0x52f,
 	M4_PMU_PERFCTR_LD_SME_NT_UOP					= 0x573,
 	M4_PMU_PERFCTR_ST_SME_NT_UOP					= 0x574,
 	M4_PMU_PERFCTR_LD_SME_NORMAL_UOP				= 0x575,
@@ -453,6 +455,51 @@ static const struct event_affinity_16 m4_pmu_event_affinity[] = {
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_LD,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ST,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ALU,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_INST_MICROCODED,				.affinity = BIT(7)			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_STORE_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_PL2_CACHE_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_LL_CACHE_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_CORE_SAMECLUSTER_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_OTHERDIE_NONSPEC,	.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_MEMSYS_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_MEMSYS_OTHERDIE_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_ST_MEM_ORDER_VIOL_LD_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_BRANCH_BR_INDIR_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC,	.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC,	.affinity = ONLY_2_TO_7			},
+};
+
+static const struct event_affinity_16 m6_pmu_event_affinity[] = {
+	{ .event_code = M4_PMU_PERFCTR_INST_ALL,				.affinity = ONLY_2_TO_7 | BIT(1)	},
+	{ .event_code = M4_PMU_PERFCTR_CORE_ACTIVE_CYCLE,			.affinity = ANY_BUT_0_1 | BIT(0)	},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_RETIRE_UOP,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_CALL,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_RET,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_TAKEN,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_INST_BRANCH_CALL_INDIR,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_INDIR,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_COND,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_INT_LD,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_INT_ST,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_INT_ALU,				.affinity = BIT(7)			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SIMD_LD,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SIMD_ST,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SIMD_ALU,				.affinity = BIT(7)			},
+	{ .event_code = M4_PMU_PERFCTR_INST_LDST,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_BARRIER,				.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SIMD_ALU_VEC,			.affinity = BIT(7)			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_SCALARFP,		.affinity = BIT(7)			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_LD,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ST,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ALU,			.affinity = BIT(7)			},
 	{ .event_code = M5_PMU_PERFCTR_INST_MICROCODED,				.affinity = BIT(7)			},
 	{ .event_code = M5_PMU_PERFCTR_LD_SRC_STORE_NONSPEC,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M5_PMU_PERFCTR_LD_SRC_PL2_CACHE_NONSPEC,		.affinity = ONLY_2_TO_7			},
@@ -968,6 +1015,13 @@ static int m4_pmu_get_event_idx(struct pmu_hw_events *cpuc,
 				          m4_pmu_event_affinity);
 }
 
+static int m6_pmu_get_event_idx(struct pmu_hw_events *cpuc,
+				struct perf_event *event)
+{
+	return apple_pmu_get_event_idx_16(cpuc, event, ARRAY_SIZE(m6_pmu_event_affinity),
+				          m6_pmu_event_affinity);
+}
+
 static void m1_pmu_clear_event_idx(struct pmu_hw_events *cpuc,
 				   struct perf_event *event)
 {
@@ -1190,6 +1244,13 @@ static int gen ## _pmu_ ## family ## _init(struct arm_pmu *cpu_pmu)				\
 #define m5_pmu_init_pmceid		m4_pmu_init_pmceid
 #define m5_pmu_events_attr_group	m4_pmu_events_attr_group
 
+#define m6_pmu_enable_event		m4_pmu_enable_event
+#define m6_pmu_map_event		m4_pmu_map_event
+#define m6_pmu_set_event_filter		m4_pmu_set_event_filter
+#define m6_pmu_map_pmuv3_event		m4_pmu_map_pmuv3_event
+#define m6_pmu_init_pmceid		m4_pmu_init_pmceid
+#define m6_pmu_events_attr_group	m4_pmu_events_attr_group
+
 APPLE_PMU_INIT(m1, icestorm)
 APPLE_PMU_INIT(m1, firestorm)
 APPLE_PMU_INIT(m2, avalanche)
@@ -1206,8 +1267,14 @@ APPLE_PMU_INIT(m5, hidra_e)
 APPLE_PMU_INIT(m5, hidra_p)
 APPLE_PMU_INIT(m5, sotra_m)
 APPLE_PMU_INIT(m5, sotra_p)
+APPLE_PMU_INIT(m6, komodo_e)
+APPLE_PMU_INIT(m6, komodo_m)
+APPLE_PMU_INIT(m6, komodo_p)
 
 static const struct of_device_id m1_pmu_of_device_ids[] = {
+	{ .compatible = "apple,komodo-e-pmu",	.data = m6_pmu_komodo_e_init, },
+	{ .compatible = "apple,komodo-m-pmu",	.data = m6_pmu_komodo_m_init, },
+	{ .compatible = "apple,komodo-p-pmu",	.data = m6_pmu_komodo_p_init, },
 	{ .compatible = "apple,sotra-m-pmu",	.data = m5_pmu_sotra_m_init, },
 	{ .compatible = "apple,sotra-p-pmu",	.data = m5_pmu_sotra_p_init, },
 	{ .compatible = "apple,hidra-e-pmu",	.data = m5_pmu_hidra_e_init, },
