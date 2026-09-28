@@ -208,6 +208,8 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_ARM_BR_MIS_PRED					= 0x10,
 	M4_PMU_PERFCTR_CORE_ACTIVE_CYCLE				= 0x11,
 	M4_PMU_PERFCTR_ARM_BR_PRED					= 0x12,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS					= 0x13,
+	M5_PMU_PERFCTR_ARM_L1I_CACHE					= 0x14,
 	M4_PMU_PERFCTR_INST_BRANCH					= 0x21,
 	M4_PMU_PERFCTR_BRANCH_MISPRED_NONSPEC				= 0x22,
 	M4_PMU_PERFCTR_ARM_STALL_FRONTEND				= 0x23,
@@ -220,6 +222,8 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_ARM_STALL_SLOT_FRONTEND				= 0x3e,
 	M4_PMU_PERFCTR_ARM_STALL_SLOT					= 0x3f,
 	M4_PMU_PERFCTR_ARM_L1D_CACHE_RD					= 0x40,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS_RD				= 0x66,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS_WR				= 0x67,
 	M4_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_IC				= 0x182,
 	M4_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_ITLB				= 0x183,
 	M4_PMU_PERFCTR_DECODE_UOP					= 0x186,
@@ -227,6 +231,7 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_MAP_DISPATCH_BUBBLE				= 0x1d6,
 	M4_PMU_PERFCTR_FETCH_RESTART					= 0x1de,
 	M4_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_SLOT				= 0x1e1,
+	M5_PMU_PERFCTR_MAP_DISPATCH_BUBBLE_TAKENBR_SLOT			= 0x1e4,
 	M4_PMU_PERFCTR_INTERRUPT_PENDING				= 0x26c,
 	M4_PMU_PERFCTR_MAP_STALL_DISPATCH				= 0x270,
 	M4_PMU_PERFCTR_MAP_REWIND					= 0x275,
@@ -245,6 +250,8 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_LDST_UNIT_OLD_L1D_CACHE_MISS			= 0x290,
 	M4_PMU_PERFCTR_LDST_UNIT_WAITING_OLD_L1D_CACHE_MISS		= 0x291,
 	M4_PMU_PERFCTR_LD_UNIT_WAITING_YOUNG_L1D_CACHE_MISS		= 0x294,
+	M5_PMU_PERFCTR_CORE_WAITING_SME_ENGINE_CYCLE			= 0x295,
+	M5_PMU_PERFCTR_LDST_OLDEST_MTE_TAG_CHECK_CYCLE			= 0x29d,
 	M4_PMU_PERFCTR_MAP_RECOVERY					= 0x2ad,
 	M4_PMU_PERFCTR_MAP_STALL_NONRECOVERY				= 0x2ae,
 	M4_PMU_PERFCTR_SCHEDULE_EMPTY					= 0x351,
@@ -263,6 +270,7 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_LD_SME_NORMAL_UOP				= 0x575,
 	M4_PMU_PERFCTR_ST_SME_NORMAL_UOP				= 0x576,
 	M4_PMU_PERFCTR_LDST_SME_PRED_INACTIVE				= 0x577,
+	M5_PMU_PERFCTR_LDST_MEM_ACCESS_CHECKED_X2K			= 0x580,
 	M4_PMU_PERFCTR_L1D_TLB_ACCESS					= 0x5a0,
 	M4_PMU_PERFCTR_L1D_TLB_MISS					= 0x5a1,
 	M4_PMU_PERFCTR_L1D_CACHE_MISS_ST				= 0x5a2,
@@ -280,6 +288,7 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_INST_BRANCH_CALL					= 0x88e,
 	M4_PMU_PERFCTR_INST_BRANCH_RET					= 0x88f,
 	M4_PMU_PERFCTR_INST_BRANCH_TAKEN				= 0x890,
+	M5_PMU_PERFCTR_INST_BRANCH_CALL_INDIR				= 0x891,
 	M4_PMU_PERFCTR_INST_BRANCH_INDIR				= 0x893,
 	M4_PMU_PERFCTR_INST_BRANCH_COND					= 0x894,
 	M4_PMU_PERFCTR_INST_INT_LD					= 0x895,
@@ -295,15 +304,38 @@ enum m4_pmu_events {
 	M4_PMU_PERFCTR_INST_SME_ENGINE_LD				= 0x8a1,
 	M4_PMU_PERFCTR_INST_SME_ENGINE_ST				= 0x8a2,
 	M4_PMU_PERFCTR_INST_SME_ENGINE_ALU				= 0x8a3,
+	M5_PMU_PERFCTR_INST_MICROCODED					= 0x8a4,
+	M5_PMU_PERFCTR_LD_SRC_STORE_NONSPEC				= 0x8af,
+	M5_PMU_PERFCTR_LD_SRC_PL2_CACHE_NONSPEC				= 0x8b0,
+	M5_PMU_PERFCTR_LD_SRC_LL_CACHE_NONSPEC				= 0x8b1,
+	M5_PMU_PERFCTR_LD_SRC_CORE_SAMECLUSTER_NONSPEC			= 0x8b2,
+	M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_NONSPEC			= 0x8b3,
+	M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_OTHERDIE_NONSPEC		= 0x8b4,
+	M5_PMU_PERFCTR_LD_SRC_MEMSYS_NONSPEC				= 0x8b9,
+	M5_PMU_PERFCTR_LD_SRC_MEMSYS_OTHERDIE_NONSPEC			= 0x8ba,
 	M4_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC			= 0x8bf,
 	M4_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC			= 0x8c0,
 	M4_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC				= 0x8c1,
 	M4_PMU_PERFCTR_ST_MEM_ORDER_VIOL_LD_NONSPEC			= 0x8c4,
 	M4_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC			= 0x8c5,
 	M4_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC			= 0x8c6,
+	M5_PMU_PERFCTR_BRANCH_BR_INDIR_MISPRED_NONSPEC			= 0x8c7,
 	M4_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC			= 0x8c8,
 	M4_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC		= 0x8ca,
+	M5_PMU_PERFCTR_PL2_CACHE_ACCESS_MMU				= 0x916,
+	M5_PMU_PERFCTR_PL2_CACHE_MISS_MMU				= 0x917,
+	M5_PMU_PERFCTR_PL2_CACHE_ACCESS_INSTRUCTION			= 0x918,
+	M5_PMU_PERFCTR_PL2_CACHE_MISS_INSTRUCTION			= 0x919,
+	M5_PMU_PERFCTR_PL2_CACHE_ACCESS_LD				= 0x91a,
+	M5_PMU_PERFCTR_PL2_CACHE_MISS_LD				= 0x91b,
+	M5_PMU_PERFCTR_PL2_CACHE_ACCESS_ST				= 0x91c,
+	M5_PMU_PERFCTR_PL2_CACHE_MISS_ST				= 0x91d,
+	M5_PMU_PERFCTR_PL2_CACHE_ACCESS					= 0x91e,
+	M5_PMU_PERFCTR_PL2_CACHE_MISS					= 0x91f,
 	M4_PMU_PERFCTR_L1I_CACHE_MISS_DEMAND				= 0x4006,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS_CHECKED				= 0x4024,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS_CHECKED_RD			= 0x4025,
+	M5_PMU_PERFCTR_ARM_MEM_ACCESS_CHECKED_WR			= 0x4026,
 	M4_PMU_PERFCTR_LAST						= M3_PMU_CFG_EVENT,
 
 	/*
@@ -405,6 +437,7 @@ static const struct event_affinity_16 m4_pmu_event_affinity[] = {
 	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_CALL,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_RET,				.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_TAKEN,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_INST_BRANCH_CALL_INDIR,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_INDIR,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_BRANCH_COND,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_INT_LD,				.affinity = ONLY_2_TO_7			},
@@ -420,12 +453,22 @@ static const struct event_affinity_16 m4_pmu_event_affinity[] = {
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_LD,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ST,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_INST_SME_ENGINE_ALU,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_INST_MICROCODED,				.affinity = BIT(7)			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_STORE_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_PL2_CACHE_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_LL_CACHE_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_CORE_SAMECLUSTER_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_OTHERCLUSTER_OTHERDIE_NONSPEC,	.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_MEMSYS_NONSPEC,			.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_LD_SRC_MEMSYS_OTHERDIE_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_L1D_CACHE_MISS_LD_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_L1D_CACHE_MISS_ST_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_L1D_TLB_MISS_NONSPEC,			.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_ST_MEM_ORDER_VIOL_LD_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_BRANCH_COND_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_BRANCH_INDIR_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
+	{ .event_code = M5_PMU_PERFCTR_BRANCH_BR_INDIR_MISPRED_NONSPEC,		.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_BRANCH_RET_INDIR_MISPRED_NONSPEC,	.affinity = ONLY_2_TO_7			},
 	{ .event_code = M4_PMU_PERFCTR_BRANCH_CALL_INDIR_MISPRED_NONSPEC,	.affinity = ONLY_2_TO_7			},
 };
@@ -1139,6 +1182,14 @@ static int gen ## _pmu_ ## family ## _init(struct arm_pmu *cpu_pmu)				\
 #define a18_pmu_init_pmceid		m4_pmu_init_pmceid
 #define a18_pmu_events_attr_group	m4_pmu_events_attr_group
 
+#define m5_pmu_enable_event		m4_pmu_enable_event
+#define m5_pmu_map_event		m4_pmu_map_event
+#define m5_pmu_get_event_idx		m4_pmu_get_event_idx
+#define m5_pmu_set_event_filter		m4_pmu_set_event_filter
+#define m5_pmu_map_pmuv3_event		m4_pmu_map_pmuv3_event
+#define m5_pmu_init_pmceid		m4_pmu_init_pmceid
+#define m5_pmu_events_attr_group	m4_pmu_events_attr_group
+
 APPLE_PMU_INIT(m1, icestorm)
 APPLE_PMU_INIT(m1, firestorm)
 APPLE_PMU_INIT(m2, avalanche)
@@ -1151,8 +1202,16 @@ APPLE_PMU_INIT(m4, donan_e)
 APPLE_PMU_INIT(m4, donan_p)
 APPLE_PMU_INIT(m4, brava_e)
 APPLE_PMU_INIT(m4, brava_p)
+APPLE_PMU_INIT(m5, hidra_e)
+APPLE_PMU_INIT(m5, hidra_p)
+APPLE_PMU_INIT(m5, sotra_m)
+APPLE_PMU_INIT(m5, sotra_p)
 
 static const struct of_device_id m1_pmu_of_device_ids[] = {
+	{ .compatible = "apple,sotra-m-pmu",	.data = m5_pmu_sotra_m_init, },
+	{ .compatible = "apple,sotra-p-pmu",	.data = m5_pmu_sotra_p_init, },
+	{ .compatible = "apple,hidra-e-pmu",	.data = m5_pmu_hidra_e_init, },
+	{ .compatible = "apple,hidra-p-pmu",	.data = m5_pmu_hidra_p_init, },
 	{ .compatible = "apple,brava-e-pmu",	.data = m4_pmu_brava_e_init, },
 	{ .compatible = "apple,brava-p-pmu",	.data = m4_pmu_brava_p_init, },
 	{ .compatible = "apple,donan-e-pmu",	.data = m4_pmu_donan_e_init, },
